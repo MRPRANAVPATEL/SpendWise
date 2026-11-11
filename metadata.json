@@ -1,0 +1,6 @@
+{
+  "name": "CashTrace - Native Android Expense Tracker",
+  "description": "Production-grade native Android (Kotlin, Jetpack Compose, Room, WorkManager) offline SMS expense tracker with overlay popup, persistent notifications, and APK build pipeline.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
