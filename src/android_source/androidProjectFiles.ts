@@ -397,7 +397,7 @@ dependencies {
     </style>
 
     <!-- Translucent floating Dialog Activity theme for instant popup on top of other apps -->
-    <style name="Theme.CashTrace.Dialog" parent="android:Theme.Material.Dialog.NoActionBar">
+    <style name="Theme.CashTrace.Dialog" parent="android:Theme.Material.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -739,7 +739,34 @@ interface ExpenseDao {
 `
   },
 
-  // 23. AppDatabase.kt
+  // 23. Converters.kt
+  {
+    path: "app/src/main/java/com/expensetracker/offline/data/local/Converters.kt",
+    category: "kotlin",
+    content: `package com.expensetracker.offline.data.local
+
+import androidx.room.TypeConverter
+
+class Converters {
+
+    @TypeConverter
+    fun fromStatus(status: ExpenseStatus?): String {
+        return status?.name ?: ExpenseStatus.PENDING.name
+    }
+
+    @TypeConverter
+    fun toStatus(value: String?): ExpenseStatus {
+        return try {
+            if (value != null) ExpenseStatus.valueOf(value) else ExpenseStatus.PENDING
+        } catch (e: Exception) {
+            ExpenseStatus.PENDING
+        }
+    }
+}
+`
+  },
+
+  // 24. AppDatabase.kt
   {
     path: "app/src/main/java/com/expensetracker/offline/data/local/AppDatabase.kt",
     category: "kotlin",
@@ -749,12 +776,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 @Database(
     entities = [ExpenseEntity::class],
     version = 1,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun expenseDao(): ExpenseDao
@@ -3418,6 +3447,13 @@ jobs:
         with:
           gradle-version: '8.7'
 
+      - name: Accept Android SDK Licenses
+        run: |
+          mkdir -p "$ANDROID_HOME/licenses" || true
+          echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_HOME/licenses/android-sdk-license" || true
+          echo "84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license" || true
+          yes | sdkmanager --licenses || true
+
       - name: Ensure Gradle Wrapper & Permissions
         run: |
           if [ ! -f "gradlew" ] || [ ! -f "gradle/wrapper/gradle-wrapper.jar" ]; then
@@ -3427,10 +3463,12 @@ jobs:
           chmod +x gradlew
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        run: |
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Build Release APK
-        run: ./gradlew assembleRelease --no-daemon --stacktrace
+        run: |
+          ./gradlew assembleRelease --no-daemon --stacktrace
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4

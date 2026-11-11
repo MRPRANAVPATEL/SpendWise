@@ -6,7 +6,7 @@
     </style>
 
     <!-- Translucent floating Dialog Activity theme for instant popup on top of other apps -->
-    <style name="Theme.CashTrace.Dialog" parent="android:Theme.Material.Dialog.NoActionBar">
+    <style name="Theme.CashTrace.Dialog" parent="android:Theme.Material.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>

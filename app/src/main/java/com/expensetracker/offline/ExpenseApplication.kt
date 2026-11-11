@@ -13,6 +13,7 @@ import com.expensetracker.offline.data.local.AppDatabase
 import com.expensetracker.offline.data.preferences.UserPreferencesRepository
 import com.expensetracker.offline.data.repository.ExpenseRepository
 import com.expensetracker.offline.service.PendingReminderWorker
+import com.expensetracker.offline.R
 import java.util.concurrent.TimeUnit
 
 class ExpenseApplication : Application() {
