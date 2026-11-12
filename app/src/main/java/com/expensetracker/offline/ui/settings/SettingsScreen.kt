@@ -185,21 +185,16 @@ fun SettingsScreen(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.PhoneAndroid, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                            Icon(Icons.Default.Settings, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Samsung One UI Setup Guide", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                         }
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            text = "To prevent Samsung One UI from killing CashTrace in the background:
-
-" +
-                                    "1. Allow restricted settings: App info > Three dots (top right) > Tap 'Allow restricted settings'.
-" +
-                                    "2. Battery: App info > Battery > Select 'Unrestricted'.
-" +
-                                    "3. Deep sleeping apps: Settings > Battery > Background usage limits > Ensure CashTrace is NOT in 'Sleeping apps' or 'Deep sleeping apps'. Add it to 'Never sleeping apps'.
-" +
+                            text = "To prevent Samsung One UI from killing CashTrace in the background:\n\n" +
+                                    "1. Allow restricted settings: App info > Three dots (top right) > Tap 'Allow restricted settings'.\n" +
+                                    "2. Battery: App info > Battery > Select 'Unrestricted'.\n" +
+                                    "3. Deep sleeping apps: Settings > Battery > Background usage limits > Ensure CashTrace is NOT in 'Sleeping apps' or 'Deep sleeping apps'. Add it to 'Never sleeping apps'.\n" +
                                     "4. Auto-launch: Ensure 'Auto start' or 'Run in background' is permitted.",
                             style = MaterialTheme.typography.bodySmall,
                             lineHeight = 18.sp
@@ -308,7 +303,7 @@ fun SettingsScreen(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp)
                         ) {
-                            Icon(Icons.Default.PlayArrow, contentDescription = null)
+                            Icon(Icons.Default.Send, contentDescription = null)
                             Spacer(modifier = Modifier.width(6.dp))
                             Text("Test Popup with Fake ₹899 SMS")
                         }
@@ -350,7 +345,7 @@ fun PermissionStatusRow(
                 Text(actionLabel)
             }
         } else {
-            Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color(0xFF10B981))
+            Icon(Icons.Default.Check, contentDescription = null, tint = Color(0xFF10B981))
         }
     }
 }

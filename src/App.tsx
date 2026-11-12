@@ -350,7 +350,59 @@ export default function App() {
       </nav>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+        {/* Quick Fix Alert for GitHub Actions Build */}
+        <div className="bg-gradient-to-r from-amber-950/40 via-slate-900 to-teal-950/30 border border-amber-500/30 rounded-2xl p-5 shadow-xl">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0 mt-0.5">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base font-bold text-white">GitHub Build Fix: 2 Escaping Errors Resolved</h2>
+                  <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    Fix Ready
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                  The Build #4 screenshot shows Gradle failed on <code className="text-amber-300">kspDebugKotlin</code> at <code className="text-teal-300">CsvExporter.kt:87</code> (unescaped quotes) and <code className="text-teal-300">SettingsScreen.kt:194</code> (unescaped multi-line text). Both files are completely fixed below.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <a
+                href="https://github.com/MRPRANAVPATEL/SpendWise/edit/main/app/src/main/java/com/expensetracker/offline/ui/export/CsvExporter.kt"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg text-slate-200 border border-slate-700 transition cursor-pointer"
+              >
+                <Edit2 className="w-3.5 h-3.5 text-teal-400" />
+                Edit CsvExporter.kt
+              </a>
+              <a
+                href="https://github.com/MRPRANAVPATEL/SpendWise/edit/main/app/src/main/java/com/expensetracker/offline/ui/settings/SettingsScreen.kt"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg text-slate-200 border border-slate-700 transition cursor-pointer"
+              >
+                <Edit2 className="w-3.5 h-3.5 text-teal-400" />
+                Edit SettingsScreen.kt
+              </a>
+              <a
+                href="https://github.com/MRPRANAVPATEL/SpendWise/actions"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold rounded-lg shadow transition cursor-pointer"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                GitHub Actions
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* TAB 1: INTERACTIVE SIMULATOR */}
         {activeTab === 'simulator' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

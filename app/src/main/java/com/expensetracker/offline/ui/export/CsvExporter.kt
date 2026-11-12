@@ -83,10 +83,9 @@ object CsvExporter {
     }
 
     private fun escapeCsv(value: String): String {
-        var str = value.replace(""", """")
-        if (str.contains(",") || str.contains("
-") || str.contains(""")) {
-            str = ""$str""
+        var str = value.replace("\"", "\"\"")
+        if (str.contains(",") || str.contains("\n") || str.contains("\r") || str.contains("\"")) {
+            str = "\"$str\""
         }
         return str
     }

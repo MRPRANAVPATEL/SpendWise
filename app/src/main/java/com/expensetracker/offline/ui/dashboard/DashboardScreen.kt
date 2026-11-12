@@ -60,7 +60,7 @@ fun DashboardScreen(
                 },
                 actions = {
                     IconButton(onClick = { showExportDialog = true }) {
-                        Icon(Icons.Default.FileDownload, contentDescription = "Export CSV")
+                        Icon(Icons.Default.Share, contentDescription = "Export CSV")
                     }
                     IconButton(onClick = onNavigateToSettings) {
                         Icon(Icons.Default.Settings, contentDescription = "Settings")
@@ -108,7 +108,7 @@ fun DashboardScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             IconButton(onClick = { viewModel.previousMonth() }) {
-                                Icon(Icons.Default.ChevronLeft, contentDescription = "Previous Month")
+                                Icon(Icons.Default.ArrowBack, contentDescription = "Previous Month")
                             }
                             Text(
                                 text = monthFormat.format(uiState.currentMonthCalendar.time),
@@ -117,7 +117,7 @@ fun DashboardScreen(
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                             IconButton(onClick = { viewModel.nextMonth() }) {
-                                Icon(Icons.Default.ChevronRight, contentDescription = "Next Month")
+                                Icon(Icons.Default.ArrowForward, contentDescription = "Next Month")
                             }
                         }
 
@@ -174,7 +174,7 @@ fun DashboardScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    Icons.Default.Warning,
+                                    Icons.Default.Info,
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.error
                                 )
@@ -231,7 +231,7 @@ fun DashboardScreen(
                     trailingIcon = {
                         if (uiState.searchQuery.isNotBlank()) {
                             IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
-                                Icon(Icons.Default.Clear, contentDescription = "Clear")
+                                Icon(Icons.Default.Close, contentDescription = "Clear")
                             }
                         }
                     },

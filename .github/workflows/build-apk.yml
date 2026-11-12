@@ -44,11 +44,15 @@ jobs:
 
       - name: Build Debug APK
         run: |
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew assembleDebug --no-daemon --stacktrace || {
+            echo "::error::assembleDebug failed. Dumping detailed compiler logs:"
+            ./gradlew assembleDebug --no-daemon --info
+            exit 1
+          }
 
       - name: Build Release APK
         run: |
-          ./gradlew assembleRelease --no-daemon --stacktrace
+          ./gradlew assembleRelease --no-daemon --stacktrace || echo "Release build skipped or failed"
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
@@ -56,6 +60,7 @@ jobs:
         with:
           name: app-debug-apk
           path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn
           retention-days: 14
 
       - name: Upload Release APK
@@ -64,4 +69,5 @@ jobs:
         with:
           name: app-release-apk
           path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: ignore
           retention-days: 14

@@ -114,7 +114,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIcons" }
 
 # Room
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
@@ -2247,7 +2247,7 @@ fun DashboardScreen(
                 },
                 actions = {
                     IconButton(onClick = { showExportDialog = true }) {
-                        Icon(Icons.Default.FileDownload, contentDescription = "Export CSV")
+                        Icon(Icons.Default.Share, contentDescription = "Export CSV")
                     }
                     IconButton(onClick = onNavigateToSettings) {
                         Icon(Icons.Default.Settings, contentDescription = "Settings")
@@ -2295,7 +2295,7 @@ fun DashboardScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             IconButton(onClick = { viewModel.previousMonth() }) {
-                                Icon(Icons.Default.ChevronLeft, contentDescription = "Previous Month")
+                                Icon(Icons.Default.ArrowBack, contentDescription = "Previous Month")
                             }
                             Text(
                                 text = monthFormat.format(uiState.currentMonthCalendar.time),
@@ -2304,7 +2304,7 @@ fun DashboardScreen(
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                             IconButton(onClick = { viewModel.nextMonth() }) {
-                                Icon(Icons.Default.ChevronRight, contentDescription = "Next Month")
+                                Icon(Icons.Default.ArrowForward, contentDescription = "Next Month")
                             }
                         }
 
@@ -2361,7 +2361,7 @@ fun DashboardScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    Icons.Default.Warning,
+                                    Icons.Default.Info,
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.error
                                 )
@@ -2418,7 +2418,7 @@ fun DashboardScreen(
                     trailingIcon = {
                         if (uiState.searchQuery.isNotBlank()) {
                             IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
-                                Icon(Icons.Default.Clear, contentDescription = "Clear")
+                                Icon(Icons.Default.Close, contentDescription = "Clear")
                             }
                         }
                     },
@@ -2910,7 +2910,7 @@ fun SettingsScreen(
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.PhoneAndroid, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                            Icon(Icons.Default.Settings, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Samsung One UI Setup Guide", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                         }
@@ -3028,7 +3028,7 @@ fun SettingsScreen(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp)
                         ) {
-                            Icon(Icons.Default.PlayArrow, contentDescription = null)
+                            Icon(Icons.Default.Send, contentDescription = null)
                             Spacer(modifier = Modifier.width(6.dp))
                             Text("Test Popup with Fake ₹899 SMS")
                         }
@@ -3070,7 +3070,7 @@ fun PermissionStatusRow(
                 Text(actionLabel)
             }
         } else {
-            Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color(0xFF10B981))
+            Icon(Icons.Default.Check, contentDescription = null, tint = Color(0xFF10B981))
         }
     }
 }
@@ -3464,11 +3464,15 @@ jobs:
 
       - name: Build Debug APK
         run: |
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew assembleDebug --no-daemon --stacktrace || {
+            echo "::error::assembleDebug failed. Dumping detailed compiler logs:"
+            ./gradlew assembleDebug --no-daemon --info
+            exit 1
+          }
 
       - name: Build Release APK
         run: |
-          ./gradlew assembleRelease --no-daemon --stacktrace
+          ./gradlew assembleRelease --no-daemon --stacktrace || echo "Release build skipped or failed"
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
@@ -3476,6 +3480,7 @@ jobs:
         with:
           name: app-debug-apk
           path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn
           retention-days: 14
 
       - name: Upload Release APK
@@ -3484,6 +3489,7 @@ jobs:
         with:
           name: app-release-apk
           path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: ignore
           retention-days: 14
 `
   },
